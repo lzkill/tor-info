@@ -23,7 +23,7 @@ These files may be used under the terms of the MIT License, wich a [copy](LICENS
 ## Usage ##
 
 - [Install and configure](https://www.torproject.org/docs/tor-relay-debian.html.en) the Tor relay
-- [Install and congigure](http://rpi-experiences.blogspot.fr/p/rpi-monitor-installation.html) RPi-Monitor
+- [Install and configure](http://rpi-experiences.blogspot.fr/p/rpi-monitor-installation.html) RPi-Monitor
 - Copy [tor.conf](tor.conf) to `/etc/rpimonitor/template/`
 - Copy [tor.png](tor.png) to `/usr/share/rpimonitor/web/img`
 - Copy [tor-bw.conf](tor-bw.conf) to `/etc/supervisor/conf.d/`
