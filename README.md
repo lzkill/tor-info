@@ -17,19 +17,13 @@ These files may be used under the terms of the MIT License, wich a [copy](LICENS
 
 - [Python](https://www.python.org) 2.6 or greater
 - [Stem](https://stem.torproject.org) 1.2.2 or greater
-- [RPi-Monitor](http://rpi-experiences.blogspot.com.br/p/rpi-monitor.html)
 - [Supervisor](http://supervisord.org)
 
 ## Usage ##
 
-- [Install and configure](https://www.torproject.org/docs/tor-relay-debian.html.en) the Tor relay
-- [Install and configure](http://rpi-experiences.blogspot.fr/p/rpi-monitor-installation.html) RPi-Monitor
-- [Install and configure](https://www.digitalocean.com/community/tutorials/how-to-install-and-manage-supervisor-on-ubuntu-and-debian-vps) Supervisor
 - Copy [tor.conf](tor.conf) to `/etc/rpimonitor/template/`
 - Copy [tor.png](tor.png) to `/usr/share/rpimonitor/web/img`
 - Copy [tor-bw.conf](tor-bw.conf) to `/etc/supervisor/conf.d/`
-- Copy [tor-bw.py](tor-bw.py) to `/srv/`  
-- Set your connection parameters on [tor-bw.py](tor-bw.py) (`TOR_CONTROL_PORT`, `TOR_ADDRESS` and `TOR_CONTROLLER_PASSWD`)
 - Run `sudo groupadd supervisor;sudo usermod -a -G supervisor pi`
 - Modify `/etc/supervisor/supervisord.conf` with the following:
 ```
@@ -38,6 +32,8 @@ file=/var/run/supervisor.sock
 chmod=0770
 chown=root:supervisor
 ```
+- Copy [tor-bw.py](tor-bw.py) to `/srv/`  
+- Set your connection parameters on [tor-bw.py](tor-bw.py) (`TOR_CONTROL_PORT`, `TOR_ADDRESS` and `TOR_CONTROLLER_PASSWD`)
 - Logout/login and run `sudo mkdir /usr/share/tor/statistics;sudo service supervisor restart;sudo service rpimonitor restart`
 
 The statistical graph shows the values of `RelayBandwidthRate` and `RelayBandwidthBurst` if these parameters are set in `torrc`.
