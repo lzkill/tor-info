@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #------------------------------------------
 #
-#    A script to register a Tor relay's
+#    A script to write a Tor relay's
 #	 bandwidth data to disk
 #
 # Author : Luiz Kill
@@ -16,7 +16,7 @@ import sys
 import time
 import functools
 from stem.control import EventType, Controller, Signal
-		  
+
 
 TOR_CONTROL_PORT = 9051
 TOR_ADDRESS = "127.0.0.1"
@@ -29,7 +29,7 @@ tor_controller = None
 is_tor_alive = False
 
 # Location of the Tor bw files
-LOCATION="/usr/share/tor/statistics/"
+PATH="/var/lib/rpimonitor/stat/"
 
 file_rx = None
 file_tx = None
@@ -46,8 +46,8 @@ def main():
 
 	try:
 	
-		file_rx = open(LOCATION + "rx", "wb")
-		file_tx = open(LOCATION + "tx", "wb")
+		file_rx = open(PATH + "tor_rx", "wb")
+		file_tx = open(PATH + "tor_tx", "wb")
 		
 		while True:
 			if tor_controller == None:
@@ -66,10 +66,6 @@ def main():
 					
 			is_tor_alive = (tor_controller != None and tor_controller.is_authenticated())
 			time.sleep(TOR_RECONNECT_DELAY)
-
-	except KeyboardInterrupt:
-		print(time.ctime(), 'Script stopped by the user')
-		pass
 
 	except Exception as exc:
 		print(time.ctime(),exc)

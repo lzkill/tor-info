@@ -1,11 +1,11 @@
-tor-bw
-======
+tor-info
+========
 
-The files needed to extend RPi-Monitor and show a Tor relay's bandwidth data.
+The files needed to extend RPi-Monitor and show a Tor relay's bandwidth information.
 
 ## Introduction ##
 
-[RPi-Monitor](http://rpi-experiences.blogspot.com.br/p/rpi-monitor.html) is a nice monitoring tool for your Raspberry Pi. It provides a web view where you can watch things such as memory, CPU and temperature. If your RPi is running a Tor relay then you can easily extend RPi-Monitor to show how much bandwidth the relay is taking.
+[RPi-Monitor](http://rpi-experiences.blogspot.com.br/p/rpi-monitor.html) is a nice monitoring tool for your Raspberry Pi. It provides a web view where you can watch things such as memory, CPU and temperature. If your RPi is running a Tor relay then you can easily extend RPi-Monitor to show how much bandwidth the relay is consumig, the observed bandwidth, the relay's address and so on.
 
 ![Stats](https://raw.githubusercontent.com/lzkill/tor-bw/master/stats.jpg)
 
@@ -19,11 +19,15 @@ These files may be used under the terms of the MIT License, wich a [copy](LICENS
 - [Stem](https://stem.torproject.org) 1.2.2 or greater
 - [Supervisor](http://supervisord.org)
 
-## Usage ##
+## Configuration ##
 
 - Copy [tor.conf](tor.conf) to `/etc/rpimonitor/template/`
+- Add the following line to `/etc/rpimonitor/data.conf`
+```
+include=/etc/rpimonitor/template/tor.conf
+```
 - Copy [tor.png](tor.png) to `/usr/share/rpimonitor/web/img`
-- Copy [tor-bw.conf](tor-bw.conf) to `/etc/supervisor/conf.d/`
+- Copy [tor-bw.conf](tor-bw.conf) and [tor-desc.conf](tor-desc.conf) to `/etc/supervisor/conf.d/`
 - Run `sudo groupadd supervisor;sudo usermod -a -G supervisor pi`
 - Modify `/etc/supervisor/supervisord.conf` with the following:
 ```
@@ -32,11 +36,13 @@ file=/var/run/supervisor.sock
 chmod=0770
 chown=root:supervisor
 ```
-- Copy [tor-bw.py](tor-bw.py) to `/srv/`  
+- Run `sudo mkdir /usr/local/sbin/rpimonitor/`
+- Copy [tor-bw.py](tor-bw.py) and [tor-desc.py](tor-desc.py)to `/usr/local/sbin/rpimonitor`  
 - Set your connection parameters on [tor-bw.py](tor-bw.py) (`TOR_CONTROL_PORT`, `TOR_ADDRESS` and `TOR_CONTROLLER_PASSWD`)
-- Logout/login and run `sudo mkdir /usr/share/tor/statistics;sudo service supervisor restart;sudo service rpimonitor restart`
+- Set your relay's fingerprint on [tor-desc.py](tor-desc.py) (`FINGERPRINT`)
+- Logout/login and run `sudo service supervisor restart;sudo service rpimonitor restart`
 
-The statistical graph shows the values of `RelayBandwidthRate` and `RelayBandwidthBurst` if these parameters are set in `torrc`.
+The traffic graph shows the values of `RelayBandwidthRate` and `RelayBandwidthBurst` if these parameters are set in `torrc`.
 
 ## Your Improvements ##
 
